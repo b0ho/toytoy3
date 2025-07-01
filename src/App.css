@@ -1,0 +1,361 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.App {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: 'Arial', sans-serif;
+  color: #333;
+}
+
+.app-header {
+  padding: 2rem 1rem;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.app-header h1 {
+  color: white;
+  font-size: 2.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  margin: 0;
+}
+
+.view-toggle {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.view-toggle:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.app-main {
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 120px);
+}
+
+/* Daily Calendar Styles */
+.daily-calendar {
+  max-width: 600px;
+  width: 100%;
+  perspective: 1000px;
+}
+
+.calendar-page {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.6s ease;
+  transform-style: preserve-3d;
+}
+
+.calendar-page.tearing {
+  animation: tearAnimation 1.5s ease-out forwards;
+}
+
+.calendar-page.torn {
+  opacity: 0.3;
+  transform: scale(0.8);
+  pointer-events: none;
+}
+
+@keyframes tearAnimation {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  25% {
+    transform: rotateX(-10deg) rotateY(5deg) translateY(-20px);
+  }
+  50% {
+    transform: rotateX(-20deg) rotateY(10deg) translateY(-40px);
+  }
+  75% {
+    transform: rotateX(-30deg) rotateY(15deg) translateY(-60px) scale(0.9);
+  }
+  100% {
+    transform: rotateX(-90deg) rotateY(20deg) translateY(-100px) scale(0.7);
+    opacity: 0;
+  }
+}
+
+.calendar-holes {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+  padding: 20px 0;
+  z-index: 2;
+}
+
+.hole {
+  width: 20px;
+  height: 20px;
+  background: #f0f0f0;
+  border-radius: 50%;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.calendar-content {
+  padding: 80px 40px 40px;
+  text-align: center;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.date-display {
+  margin-bottom: 2rem;
+}
+
+.main-date {
+  font-size: 4rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.date-info {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.day-info {
+  font-size: 1rem;
+  color: #999;
+}
+
+.tear-button {
+  background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+  margin-top: 2rem;
+}
+
+.tear-button:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+}
+
+.tear-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.torn-message {
+  background: rgba(255, 193, 7, 0.2);
+  color: #856404;
+  padding: 1rem;
+  border-radius: 10px;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+/* Monthly View Styles */
+.monthly-view {
+  max-width: 900px;
+  width: 100%;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.monthly-header {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.monthly-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.month-navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-button {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.nav-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.current-month {
+  font-size: 1.5rem;
+  font-weight: bold;
+  min-width: 200px;
+}
+
+.calendar-grid {
+  padding: 2rem;
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+.weekday {
+  text-align: center;
+  font-weight: bold;
+  color: #666;
+  padding: 0.5rem;
+}
+
+.dates-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+.date-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  position: relative;
+}
+
+.date-cell:hover {
+  background: #f0f0f0;
+  transform: scale(1.05);
+}
+
+.date-cell.other-month {
+  color: #ccc;
+}
+
+.date-cell.today {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+}
+
+.date-cell.torn {
+  background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+  color: white;
+  position: relative;
+}
+
+.date-cell.torn::after {
+  content: '✂️';
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  font-size: 0.8rem;
+}
+
+.back-button {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .app-header {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .app-header h1 {
+    font-size: 2rem;
+  }
+
+  .app-main {
+    padding: 1rem;
+  }
+
+  .calendar-content {
+    padding: 60px 20px 20px;
+  }
+
+  .main-date {
+    font-size: 3rem;
+  }
+
+  .monthly-view {
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .calendar-grid {
+    padding: 1rem;
+  }
+
+  .date-cell {
+    font-size: 0.9rem;
+  }
+}
